@@ -21,7 +21,12 @@ namespace WebApplication3
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddMvc();
+            services.AddMvc()
+                .AddRazorOptions(options =>
+                {
+                    options.ViewLocationFormats.Clear();
+                    options.ViewLocationFormats.Add("/Pages/{0}.cshtml");
+                });
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -38,13 +43,7 @@ namespace WebApplication3
             }
 
             app.UseStaticFiles();
-
-            app.UseMvc(routes =>
-            {
-                routes.MapRoute(
-                    name: "default",
-                    template: "{controller}/{action=Index}/{id?}");
-            });
+            app.UseMvc();
         }
     }
 }
